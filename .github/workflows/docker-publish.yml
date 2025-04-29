@@ -31,7 +31,7 @@ jobs:
         push: true # 推送镜像到 Docker Hub
         tags: |
           chinazman/docker-proxy:latest
-          chinazman/docker-proxy:${{ github.sha }} # 添加一个基于 commit SHA 的标签
+          chinazman/docker-proxy:${{ github.sha }}
         # 可选：添加缓存以加速构建
         # cache-from: type=gha
         # cache-to: type=gha,mode=max
