@@ -255,25 +255,20 @@ async function forwardResponse(fetchResponse, nodeResponse) {
 }
 
 function parseAuthenticate(authenticateStr) {
-  // Improved regex to handle potential variations and ensure correct key association
-  const re = /(?<=\b(?:realm|service)=")([^"]*)"/g;
-  let match;
   const result = {};
-  // Reset lastIndex in case of reuse
-  re.lastIndex = 0;
+  // Regex to capture key (realm or service) and its value directly
+  const re = /\b(realm|service)="([^"]*)"/g;
+  let match;
 
-  // Find all key="value" pairs
   while ((match = re.exec(authenticateStr)) !== null) {
-      // Determine the key ('realm' or 'service') that immediately precedes the =" pattern
-      // Search backwards from the match index
-      const preMatchString = authenticateStr.substring(0, match.index);
-      const keyMatch = preMatchString.match(/\b(realm|service)$/);
-      if (keyMatch && keyMatch[1]) {
-          result[keyMatch[1]] = match[1]; // match[1] is the captured value inside quotes
-      }
+    // match[1] is the key (e.g., 'realm' or 'service')
+    // match[2] is the value (e.g., 'https://auth.docker.io/token')
+    if (match[1] && match[2]) {
+      result[match[1]] = match[2];
+    }
   }
 
-
+  // Check if both essential parts were found
   if (!result.realm || !result.service) {
     console.error(`Failed to parse realm or service from Www-Authenticate: ${authenticateStr}. Parsed: ${JSON.stringify(result)}`);
     return null; // Indicate failure
