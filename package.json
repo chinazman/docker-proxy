@@ -1,0 +1,20 @@
+{
+  "name": "docker-proxy",
+  "private": true,
+  "description": "",
+  "version": "1.0.0",
+  "author": "zman <allen.cccccnm@gmail.com>",
+  "type": "module",
+  "devDependencies": {
+    "dotenv-cli": "^8.0.0",
+    "prettier": "^2.4.1"
+  },
+  "scripts": {
+    "start": "dotenv -e .env.production -- node server.js",
+    "start:dev": "dotenv -e .env.development -- node server.js",
+    "start:prod": "dotenv -e .env.production -- node server.js",
+    "format": "prettier --write '**/*.{js,css,json,md}'"
+  },
+  "license": "MIT",
+  "main": "server.js"
+}
